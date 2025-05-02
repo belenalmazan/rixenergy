@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,22 +78,6 @@
     button:hover {
       background-color: #b51c1c;
     }
-    .note {
-      margin-top: 40px;
-      font-size: 0.9em;
-      color: #444;
-    }
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
-    ul li::before {
-      content: "\2022";
-      color: #d72027;
-      display: inline-block;
-      width: 1em;
-      margin-left: -1em;
-    }
   </style>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
@@ -129,52 +114,70 @@
     <div id="thank-you" style="display:none; font-size: 1.2em; color: #007700; margin-top: 30px;">
       Thank you for your message. We'll get back to you shortly.
     </div>
+  </div>
+<footer style="margin-top: 60px; padding: 40px 20px; background-color: #f1f1f1; text-align: center;">
+  <h3 style="color: #333; font-size: 1.3em; margin-bottom: 30px;">Domain Redirection</h3>
+  <div style="display: flex; justify-content: center; align-items: flex-start; gap: 80px; flex-wrap: wrap;">
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector("form");
-        const thankYou = document.getElementById("thank-you");
+    <div style="text-align: center; width: 240px;">
+      <img src="logo-reddirt.png" alt="Red Dirt Rentals Logo" style="max-width: 100%; max-height: 150px; margin-bottom: 12px;">
+      <p style="font-size: 1em; color: #333;">reddirtinc.com<br>redirects to this page</p>
+    </div>
 
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
+    <div style="text-align: center; width: 240px; padding-bottom: 30px;">
+      <img src="logo-greenfieldes.png" alt="Greenfield Logo" style="max-width: 100%; max-height: 80px; margin-top: 35px; margin-bottom: 12px;">
+      <p style="font-size: 1em; color: #333;">greenfieldes.com<br>redirects to this page</p>
+    </div>
 
-          const recaptchaResponse = grecaptcha.getResponse();
-          if (!recaptchaResponse) {
-            alert("Please verify that you are not a robot.");
-            return;
-          }
+  </div>
+</footer>
 
-          const formData = new FormData(form);
-          formData.delete("g-recaptcha-response"); // ⛔ Do not send this to Formsubmit
 
-          fetch(form.action, {
-            method: "POST",
-            body: formData,
-            headers: { 'Accept': 'application/json' }
-          }).then(response => {
-            if (response.ok) {
-              form.style.display = "none";
-              thankYou.style.display = "block";
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.querySelector("form");
+      const thankYou = document.getElementById("thank-you");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const recaptchaResponse = grecaptcha.getResponse();
+        if (!recaptchaResponse) {
+          alert("Please verify that you are not a robot.");
+          return;
+        }
+
+        const formData = new FormData(form);
+        formData.delete("g-recaptcha-response");
+
+        fetch(form.action, {
+          method: "POST",
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        }).then(response => {
+          if (response.ok) {
+            form.style.display = "none";
+            thankYou.style.display = "block";
+            setTimeout(() => {
+              thankYou.style.transition = "opacity 1s ease";
+              thankYou.style.opacity = 0;
               setTimeout(() => {
-                thankYou.style.transition = "opacity 1s ease";
-                thankYou.style.opacity = 0;
-                setTimeout(() => {
-                  thankYou.style.display = "none";
-                  thankYou.style.opacity = 1;
-                  form.reset();
-                  grecaptcha.reset();
-                  form.style.display = "block";
-                }, 1000);
-              }, 10000);
-            } else {
-              alert("There was an error sending your message.");
-            }
-          }).catch(() => {
-            alert("There was an error. Please try again.");
-          });
+                thankYou.style.display = "none";
+                thankYou.style.opacity = 1;
+                form.reset();
+                grecaptcha.reset();
+                form.style.display = "block";
+              }, 1000);
+            }, 10000);
+          } else {
+            alert("There was an error sending your message.");
+          }
+        }).catch(() => {
+          alert("There was an error. Please try again.");
         });
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>
-
