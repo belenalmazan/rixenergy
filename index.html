@@ -155,19 +155,7 @@
           headers: { 'Accept': 'application/json' }
         }).then(response => {
           if (response.ok) {
-            form.style.display = "none";
-            thankYou.style.display = "block";
-            setTimeout(() => {
-              thankYou.style.transition = "opacity 1s ease";
-              thankYou.style.opacity = 0;
-              setTimeout(() => {
-                thankYou.style.display = "none";
-                thankYou.style.opacity = 1;
-                form.reset();
-                grecaptcha.reset();
-                form.style.display = "block";
-              }, 1000);
-            }, 10000);
+            
           } else {
             alert("There was an error sending your message.");
           }
